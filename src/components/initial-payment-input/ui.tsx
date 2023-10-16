@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ActiveFieldContext } from "~context/active-field-context";
 import { Alert } from "~shared/alert";
 import { CurrencyIcon } from "~shared/icons";
@@ -14,6 +14,13 @@ export function InitialPaymentInput() {
     initialPayment: number;
     propertyCost: number;
   }>();
+
+  // Проверка, чтобы первоначальный взнос не превышал стоимость недвижимости
+  useEffect(() => {
+    if (values.initialPayment > values.propertyCost) {
+      setFieldValue("initialPayment", values.propertyCost);
+    }
+  }, [values.propertyCost, values.initialPayment, setFieldValue]);
 
   const handleChange = (value: number) => {
     setFieldValue("initialPayment", value);

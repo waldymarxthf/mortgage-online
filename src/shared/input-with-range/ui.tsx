@@ -33,7 +33,6 @@ export function InputWithRange({
 }: InputWithRangeProps) {
   const id = useId();
   const formattedValue = value.toLocaleString("en-US");
-
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange(convertInputToNumber(event.target.value));
   };

@@ -20,6 +20,10 @@ export function calculateMonthlyPayment(
     return 0;
   }
 
+  if (initialPayment >= propertyCost) {
+    return 0;
+  }
+
   const remainingLoanAmount = propertyCost - initialPayment;
   const monthlyInterestRate = ANNUAL_RATE / MONTHS_IN_YEAR / PERCENT_TO_DECIMAL;
   const loanDurationInMonths = deadlineInYears * MONTHS_IN_YEAR;
