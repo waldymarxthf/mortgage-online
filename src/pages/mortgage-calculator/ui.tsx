@@ -40,9 +40,7 @@ export function MortgageCalculator() {
           <div className="min-h-screen bg-dark ">
             <div className="flex justify-center sm:justify-start tablet:justify-center">
               <div className="sm:px-55 px-5 lg:max-w-screen-default tablet:px-155">
-                <h1 className="pb-10 pt-28 text-3xl sm:text-5xl">
-                  Рассчитайте ипотеку быстро и просто
-                </h1>
+                <h1 className="pt-28 text-3xl sm:text-5xl">Рассчитайте ипотеку быстро и просто</h1>
                 <div className="lg:grid lg:grid-cols-2 tablet:flex tablet:flex-wrap tablet:justify-between">
                   <div className="mt-9 lg:col-start-1">
                     <PropertyCostInput />
@@ -72,7 +70,7 @@ export function MortgageCalculator() {
             </div>
             <hr className="mt-2 block h-px w-full border-none bg-outline sm:my-8" />
             <div className="sm:flex sm:justify-center">
-              <div className="sm:px-55 px-5 py-6 sm:w-1440 tablet:px-40">
+              <div className="sm:px-55 px-5 py-6 sm:w-1440 sm:py-0 tablet:px-40">
                 <div className="sm:flex sm:justify-end">
                   <button
                     className={`h-14 w-full rounded-md font-medium sm:h-12 sm:w-60 ${

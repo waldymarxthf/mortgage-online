@@ -13,6 +13,7 @@ const MARKS = ["2,654 ₪", "51,130 ₪"];
 
 export function MonthlyPaymentInput() {
   const [isInputActive, setInputActive] = useState(false);
+  const [maxPayment, setMaxPayment] = useState(MAX_PAYMENT);
   const { values, errors, setFieldValue } = useFormikContext<MyFormValues>();
   const { activeField, setActiveField } = useContext(ActiveFieldContext);
 
@@ -56,6 +57,18 @@ export function MonthlyPaymentInput() {
         setFieldValue("monthlyPayment", monthlyPayment);
       }
     }
+
+    // высчитывания максимально возможного ежемесячного платежа
+
+    const maxMonthlyPayment = calculateMonthlyPayment(
+      values.propertyCost,
+      values.initialPayment,
+      4,
+    );
+
+    if (!Number.isNaN(maxMonthlyPayment)) {
+      setMaxPayment(Math.trunc(maxMonthlyPayment));
+    }
   }, [values, activeField, setFieldValue]);
 
   return (
@@ -64,7 +77,7 @@ export function MonthlyPaymentInput() {
         error={errors.monthlyPayment}
         label="Ежемесячный платеж"
         marks={MARKS}
-        max={MAX_PAYMENT}
+        max={maxPayment}
         min={MIN_PAYMENT}
         placeholder="Введите сумму"
         rightSection={<CurrencyIcon />}
