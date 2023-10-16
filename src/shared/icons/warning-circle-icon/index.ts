@@ -1,0 +1,1 @@
+export { WarningCircleIcon } from "./ui";
