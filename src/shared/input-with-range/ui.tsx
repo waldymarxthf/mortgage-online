@@ -37,15 +37,12 @@ export function InputWithRange({
     onChange(convertInputToNumber(event.target.value));
   };
 
-  const handleRangeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(convertInputToNumber(event.target.value));
-  };
-
   /**
    * Меняет стиль инпута, чтобы левая часть прогресса была желтой, а другая серой
    */
 
-  const progress = ((value - min) / (max - min)) * 100;
+  const progress = max >= min && Math.max(0, Math.min(100, ((value - min) / (max - min)) * 100));
+
   const trackBackground = `linear-gradient(90deg, #FBE54D ${progress}%, #333535 ${progress}%)`;
 
   return (
@@ -82,7 +79,7 @@ export function InputWithRange({
           type="range"
           value={value}
           onBlur={onBlur}
-          onChange={handleRangeChange}
+          onChange={handleInputChange}
           onFocus={onFocus}
         />
       </div>

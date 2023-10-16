@@ -10,9 +10,52 @@ import { useFormikContext } from "formik";
 const MAX_PAYMENT = 51130;
 const MIN_PAYMENT = 2654;
 
+const updateFieldValues = (
+  activeField: string,
+  values: MyFormValues,
+  setFieldValue: (field: string, value: number) => void,
+) => {
+  if (activeField === "monthlyPayment") {
+    const deadline = calculateDeadline(
+      values.monthlyPayment,
+      values.propertyCost,
+      values.initialPayment,
+    );
+    if (!Number.isNaN(deadline)) {
+      setFieldValue("deadline", deadline);
+    }
+  } else {
+    const monthlyPayment = calculateMonthlyPayment(
+      values.propertyCost,
+      values.initialPayment,
+      values.deadline,
+    );
+    if (!Number.isNaN(monthlyPayment)) {
+      setFieldValue("monthlyPayment", monthlyPayment);
+    }
+  }
+};
+
+const updateMinMaxPayments = (
+  values: MyFormValues,
+  setMaxPayment: (max: number) => void,
+  setMinPayment: (min: number) => void,
+) => {
+  const maxMonthlyPayment = calculateMonthlyPayment(values.propertyCost, values.initialPayment, 4);
+  if (!Number.isNaN(maxMonthlyPayment)) {
+    setMaxPayment(Math.trunc(maxMonthlyPayment));
+  }
+
+  const minMonthlyPayment = calculateMonthlyPayment(values.propertyCost, values.initialPayment, 30);
+  if (!Number.isNaN(minMonthlyPayment)) {
+    setMinPayment(Math.trunc(minMonthlyPayment));
+  }
+};
+
 export function MonthlyPaymentInput() {
   const [isInputActive, setInputActive] = useState(false);
   const [maxPayment, setMaxPayment] = useState(MAX_PAYMENT);
+  const [minPayment, setMinPayment] = useState(MIN_PAYMENT);
   const { values, errors, setFieldValue } = useFormikContext<MyFormValues>();
   const { activeField, setActiveField } = useContext(ActiveFieldContext);
 
@@ -37,49 +80,27 @@ export function MonthlyPaymentInput() {
    */
 
   useEffect(() => {
-    if (activeField === "monthlyPayment") {
-      const deadline = calculateDeadline(
-        values.monthlyPayment,
-        values.propertyCost,
-        values.initialPayment,
-      );
-      if (!Number.isNaN(deadline)) {
-        setFieldValue("deadline", deadline);
-      }
-    } else {
-      const monthlyPayment = calculateMonthlyPayment(
-        values.propertyCost,
-        values.initialPayment,
-        values.deadline,
-      );
-      if (!Number.isNaN(monthlyPayment)) {
-        setFieldValue("monthlyPayment", monthlyPayment);
-      }
-    }
-
-    // высчитывания максимально возможного ежемесячного платежа
-
-    const maxMonthlyPayment = calculateMonthlyPayment(
-      values.propertyCost,
-      values.initialPayment,
-      4,
-    );
-
-    if (!Number.isNaN(maxMonthlyPayment)) {
-      setMaxPayment(Math.trunc(maxMonthlyPayment));
-    }
+    updateFieldValues(activeField, values, setFieldValue);
+    updateMinMaxPayments(values, setMaxPayment, setMinPayment);
   }, [values, activeField, setFieldValue]);
 
+  useEffect(() => {
+    if (MIN_PAYMENT > maxPayment) {
+      setMaxPayment(MIN_PAYMENT);
+    }
+  }, [maxPayment]);
+
   const formattedMaxMonthlyPayment = parseInt(String(maxPayment), 10).toLocaleString("en-US");
+  const formattedMinMonthlyPayment = parseInt(String(minPayment), 10).toLocaleString("en-US");
 
   return (
     <div>
       <InputWithRange
         error={errors.monthlyPayment}
         label="Ежемесячный платеж"
-        marks={["2,654 ₪", `${formattedMaxMonthlyPayment} ₪`]}
+        marks={[`${formattedMinMonthlyPayment} ₪`, `${formattedMaxMonthlyPayment} ₪`]}
         max={maxPayment}
-        min={MIN_PAYMENT}
+        min={minPayment}
         placeholder="Введите сумму"
         rightSection={<CurrencyIcon />}
         value={values.monthlyPayment}

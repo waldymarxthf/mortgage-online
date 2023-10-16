@@ -1,6 +1,6 @@
 import React, { createContext, useState } from "react";
 
-type ActiveField = "monthlyPayment" | "deadline" | null;
+type ActiveField = "monthlyPayment" | "deadline";
 
 interface ActiveFieldContextType {
   activeField: ActiveField;
@@ -13,7 +13,7 @@ export const ActiveFieldContext = createContext<ActiveFieldContextType>({
 });
 
 export function ActiveFieldFormProvider({ children }: { children: React.ReactNode }) {
-  const [activeField, setActiveField] = useState<ActiveField>(null);
+  const [activeField, setActiveField] = useState<ActiveField>("deadline");
 
   return (
     <ActiveFieldContext.Provider value={{ activeField, setActiveField }}>
