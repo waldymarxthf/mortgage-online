@@ -9,7 +9,6 @@ import { useFormikContext } from "formik";
 
 const MAX_PAYMENT = 51130;
 const MIN_PAYMENT = 2654;
-const MARKS = ["2,654 ₪", "51,130 ₪"];
 
 export function MonthlyPaymentInput() {
   const [isInputActive, setInputActive] = useState(false);
@@ -71,12 +70,14 @@ export function MonthlyPaymentInput() {
     }
   }, [values, activeField, setFieldValue]);
 
+  const formattedMaxMonthlyPayment = parseInt(String(maxPayment), 10).toLocaleString("en-US");
+
   return (
     <div>
       <InputWithRange
         error={errors.monthlyPayment}
         label="Ежемесячный платеж"
-        marks={MARKS}
+        marks={["2,654 ₪", `${formattedMaxMonthlyPayment} ₪`]}
         max={maxPayment}
         min={MIN_PAYMENT}
         placeholder="Введите сумму"
