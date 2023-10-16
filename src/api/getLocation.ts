@@ -5,9 +5,7 @@ export async function getLocation(lat: number, lon: number) {
     );
     const data = await response.json();
 
-    const cityName = data.address?.town || "Неизвестный город";
-
-    return cityName;
+    return data.address?.city || data.address?.town || "Неизвестный город";
   } catch (error) {
     return "Неизвестный город";
   }
