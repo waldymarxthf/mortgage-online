@@ -1,27 +1,52 @@
-# React + TypeScript + Vite
+# Тестовое задание Расчет онлайн ипотеки
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Description
 
-Currently, two official plugins are available:
+Этот проект представляет собой калькулятор ипотеки, созданный для упрощения процесса расчета ипотечных платежей. Пользователь может легко рассчитать свой ежемесячный платеж и узнать, как изменение этого платежа влияет на срок ипотеки. Проект также обрабатывает и выводит ошибки, чтобы пользователь мог сделать наиболее обоснованный выбор.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Особенности
 
-## Expanding the ESLint configuration
+- Расчет ежемесячного платежа
+- Динамическое изменение срока ипотеки
+- Обработка и вывод ошибок
+- Автоматическое определение города по геолокации
+- Сохранение данных формы в localStorage
+- Отправка данных на условный роут для дальнейшей обработки
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Технологический стек
 
-- Configure the top-level `parserOptions` property like this:
+- [React](https://reactjs.org/)
+- [Redux Toolkit (RTK)](https://redux-toolkit.js.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Formik](https://formik.org/)
+- [Yup](https://github.com/jquense/yup)
+- [pnpm](https://pnpm.io/)
+- [TypeScript](https://www.typescriptlang.org/)
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
+## Установка проекта
+
+Для установки проекта убедитесь, что у вас установлен `pnpm`, и выполните следующие команды:
+
+Клонировать репозиторий
+
+```
+git clone https://github.com/waldymarxthf/mortgage-online.git
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+Перейти в папку с проектом
+
+```
+cd mortgage-online
+```
+
+Установить зависимости
+
+```
+pnpm install
+```
+
+Запустить локальный сервер
+
+```
+pnpm dev
+```
