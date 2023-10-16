@@ -1,4 +1,5 @@
 import { ActiveFieldContext } from "~context/active-field-context";
+import { FIELD } from "~utils/constants-field";
 import { InputWithRange } from "~shared/input-with-range";
 import { MyFormValues } from "~pages/mortgage-calculator/ui";
 import { useContext } from "react";
@@ -9,8 +10,8 @@ export function DeadlineInput() {
   const { setActiveField } = useContext(ActiveFieldContext);
 
   const handleChange = (value: number) => {
-    setFieldValue("deadline", value);
-    setActiveField("deadline");
+    setFieldValue(FIELD.DEADLINE, value);
+    setActiveField(FIELD.DEADLINE);
   };
 
   return (

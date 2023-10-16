@@ -1,4 +1,5 @@
 import { Autocomplete } from "~shared/autocomplete";
+import { FIELD } from "~utils/constants-field";
 import { MagnifyingGlassIcon } from "~shared/icons/magnifying-glass-icon";
 import { cities } from "./constants";
 import { getLocation } from "~api/getLocation";
@@ -11,7 +12,7 @@ export function CityPurchaseDropdown() {
   }>();
 
   const handleChange = (value: string) => {
-    setFieldValue("cityPurchase", value);
+    setFieldValue(FIELD.CITY_PURCHASE, value);
   };
 
   useEffect(() => {
@@ -23,7 +24,7 @@ export function CityPurchaseDropdown() {
         const cityName = await getLocation(lat, lon);
 
         if (!values.cityPurchase) {
-          setFieldValue("cityPurchase", cityName);
+          setFieldValue(FIELD.CITY_PURCHASE, cityName);
         }
       });
     }
@@ -33,8 +34,8 @@ export function CityPurchaseDropdown() {
     <Autocomplete
       data={cities}
       error={touched.cityPurchase && errors.cityPurchase}
-      fieldName="cityPurchase"
-      handleBlur={() => setFieldTouched("cityPurchase", true)}
+      fieldName={FIELD.CITY_PURCHASE}
+      handleBlur={() => setFieldTouched(FIELD.CITY_PURCHASE, true)}
       label="Город покупки недвижимости"
       leftSection={<MagnifyingGlassIcon />}
       placeholder="Поиск..."

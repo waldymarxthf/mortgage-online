@@ -1,6 +1,7 @@
 import React, { createContext, useState } from "react";
+import { FIELD } from "~utils/constants-field";
 
-type ActiveField = "monthlyPayment" | "deadline";
+type ActiveField = typeof FIELD.MONTHLY_PAYMENT | typeof FIELD.DEADLINE;
 
 interface ActiveFieldContextType {
   activeField: ActiveField;
@@ -8,12 +9,12 @@ interface ActiveFieldContextType {
 }
 
 export const ActiveFieldContext = createContext<ActiveFieldContextType>({
-  activeField: "deadline",
+  activeField: FIELD.DEADLINE,
   setActiveField: () => {},
 });
 
 export function ActiveFieldFormProvider({ children }: { children: React.ReactNode }) {
-  const [activeField, setActiveField] = useState<ActiveField>("deadline");
+  const [activeField, setActiveField] = useState<ActiveField>(FIELD.DEADLINE);
 
   return (
     <ActiveFieldContext.Provider value={{ activeField, setActiveField }}>

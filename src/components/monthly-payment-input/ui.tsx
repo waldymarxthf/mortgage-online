@@ -3,26 +3,36 @@ import { useContext, useEffect, useState } from "react";
 import { ActiveFieldContext } from "~context/active-field-context";
 import { Alert } from "~shared/alert";
 import { CurrencyIcon } from "~shared/icons";
+import { FIELD } from "~utils/constants-field";
 import { InputWithRange } from "~shared/input-with-range";
 import { MyFormValues } from "~pages/mortgage-calculator/ui";
 import { useFormikContext } from "formik";
 
 const MAX_PAYMENT = 51130;
 const MIN_PAYMENT = 2654;
+const MIN_VALUE = 4;
+const MAX_VALUE = 30;
+
+/**
+ * Функционал который меняет значение либо ежемесячного платежа либо срока ипотеки
+ * 1. функция высчитывания ежемесячного платежа через формулу
+ * 2. та же самая функция только немного перевернутая которая из ежемесячного платежа высчитывает срок
+ * 3. также есть проверка на NaN, чтобы не было ошибок
+ */
 
 const updateFieldValues = (
   activeField: string,
   values: MyFormValues,
   setFieldValue: (field: string, value: number) => void,
 ) => {
-  if (activeField === "monthlyPayment") {
+  if (activeField === FIELD.MONTHLY_PAYMENT) {
     const deadline = calculateDeadline(
       values.monthlyPayment,
       values.propertyCost,
       values.initialPayment,
     );
     if (!Number.isNaN(deadline)) {
-      setFieldValue("deadline", deadline);
+      setFieldValue(FIELD.DEADLINE, deadline);
     }
   } else {
     const monthlyPayment = calculateMonthlyPayment(
@@ -31,22 +41,34 @@ const updateFieldValues = (
       values.deadline,
     );
     if (!Number.isNaN(monthlyPayment)) {
-      setFieldValue("monthlyPayment", monthlyPayment);
+      setFieldValue(FIELD.MONTHLY_PAYMENT, monthlyPayment);
     }
   }
 };
+
+/**
+ * Функционал который высчитывает максимальное или минимальное значение ежемесячного платежа
+ */
 
 const updateMinMaxPayments = (
   values: MyFormValues,
   setMaxPayment: (max: number) => void,
   setMinPayment: (min: number) => void,
 ) => {
-  const maxMonthlyPayment = calculateMonthlyPayment(values.propertyCost, values.initialPayment, 4);
+  const maxMonthlyPayment = calculateMonthlyPayment(
+    values.propertyCost,
+    values.initialPayment,
+    MIN_VALUE,
+  );
   if (!Number.isNaN(maxMonthlyPayment)) {
     setMaxPayment(Math.trunc(maxMonthlyPayment));
   }
 
-  const minMonthlyPayment = calculateMonthlyPayment(values.propertyCost, values.initialPayment, 30);
+  const minMonthlyPayment = calculateMonthlyPayment(
+    values.propertyCost,
+    values.initialPayment,
+    MAX_VALUE,
+  );
   if (!Number.isNaN(minMonthlyPayment)) {
     setMinPayment(Math.trunc(minMonthlyPayment));
   }
@@ -60,8 +82,8 @@ export function MonthlyPaymentInput() {
   const { activeField, setActiveField } = useContext(ActiveFieldContext);
 
   const handleChange = (value: number) => {
-    setFieldValue("monthlyPayment", value);
-    setActiveField("monthlyPayment");
+    setFieldValue(FIELD.MONTHLY_PAYMENT, value);
+    setActiveField(FIELD.MONTHLY_PAYMENT);
   };
 
   const handleFocus = () => {
@@ -71,13 +93,6 @@ export function MonthlyPaymentInput() {
   const handleBlur = () => {
     setInputActive(false);
   };
-
-  /**
-   * Функционал который меняет значение либо ежемесячного платежа либо срока ипотеки
-   * 1. функция высчитывания ежемесячного платежа через формулу
-   * 2. та же самая функция только немного перевернутая которая из ежемесячного платежа высчитывает срок
-   * 3. также есть проверка на NaN, чтобы не было ошибок
-   */
 
   useEffect(() => {
     updateFieldValues(activeField, values, setFieldValue);

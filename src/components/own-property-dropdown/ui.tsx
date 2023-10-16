@@ -1,4 +1,5 @@
 import { Dropdown } from "~shared/dropdown";
+import { FIELD } from "~utils/constants-field";
 import { owner } from "./constants";
 import { useFormikContext } from "formik";
 
@@ -8,7 +9,7 @@ export function OwnPropertyDropdown() {
   }>();
 
   const handleChange = (value: string) => {
-    setFieldValue("ownProperty", value);
+    setFieldValue(FIELD.OWN_PROPERTY, value);
   };
 
   return (
@@ -16,8 +17,8 @@ export function OwnPropertyDropdown() {
       <Dropdown
         data={owner}
         error={touched.ownProperty && errors.ownProperty}
-        fieldName="ownProperty"
-        handleBlur={() => setFieldTouched("ownProperty", true)}
+        fieldName={FIELD.OWN_PROPERTY}
+        handleBlur={() => setFieldTouched(FIELD.OWN_PROPERTY, true)}
         label="Вы уже владеете недвижимостью?"
         placeholder="Выберите ответ"
         value={values.ownProperty}

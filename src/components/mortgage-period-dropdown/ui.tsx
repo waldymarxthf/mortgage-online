@@ -1,4 +1,5 @@
 import { Dropdown } from "~shared/dropdown";
+import { FIELD } from "~utils/constants-field";
 import { period } from "./constants";
 import { useFormikContext } from "formik";
 
@@ -8,7 +9,7 @@ export function MortgagePeriodDropdown() {
   }>();
 
   const handleChange = (value: string) => {
-    setFieldValue("mortgagePeriod", value);
+    setFieldValue(FIELD.MORTGAGE_PERIOD, value);
   };
 
   return (
@@ -16,8 +17,8 @@ export function MortgagePeriodDropdown() {
       <Dropdown
         data={period}
         error={touched.mortgagePeriod && errors.mortgagePeriod}
-        fieldName="mortgagePeriod"
-        handleBlur={() => setFieldTouched("mortgagePeriod", true, false)}
+        fieldName={FIELD.MORTGAGE_PERIOD}
+        handleBlur={() => setFieldTouched(FIELD.MORTGAGE_PERIOD, true)}
         label="Когда вы планируете оформить ипотеку?"
         placeholder="Выберите период"
         value={values.mortgagePeriod}

@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { ActiveFieldContext } from "~context/active-field-context";
 import { Alert } from "~shared/alert";
 import { CurrencyIcon } from "~shared/icons";
+import { FIELD } from "~utils/constants-field";
 import { InitialPaymentHint } from "~components/initial-payment-hint";
 import { InputWithRange } from "~shared/input-with-range";
 import { useFormikContext } from "formik";
@@ -18,13 +19,13 @@ export function InitialPaymentInput() {
   // Проверка, чтобы первоначальный взнос не превышал стоимость недвижимости
   useEffect(() => {
     if (values.initialPayment > values.propertyCost) {
-      setFieldValue("initialPayment", values.propertyCost);
+      setFieldValue(FIELD.INITIAL_PAYMENT, values.propertyCost);
     }
   }, [values.propertyCost, values.initialPayment, setFieldValue]);
 
   const handleChange = (value: number) => {
-    setFieldValue("initialPayment", value);
-    setActiveField("deadline");
+    setFieldValue(FIELD.INITIAL_PAYMENT, value);
+    setActiveField(FIELD.DEADLINE);
   };
 
   const handleFocus = () => {

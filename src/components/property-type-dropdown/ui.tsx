@@ -1,4 +1,5 @@
 import { Dropdown } from "~shared/dropdown";
+import { FIELD } from "~utils/constants-field";
 import { propertyType } from "./constants";
 import { useFormikContext } from "formik";
 
@@ -8,7 +9,7 @@ export function PropertyTypeDropdown() {
   }>();
 
   const handleChange = (value: string) => {
-    setFieldValue("propertyType", value);
+    setFieldValue(FIELD.PROPERTY_TYPE, value);
   };
 
   return (
@@ -16,8 +17,8 @@ export function PropertyTypeDropdown() {
       <Dropdown
         data={propertyType}
         error={touched.propertyType && errors.propertyType}
-        fieldName="propertyType"
-        handleBlur={() => setFieldTouched("propertyType", true, false)}
+        fieldName={FIELD.PROPERTY_TYPE}
+        handleBlur={() => setFieldTouched(FIELD.PROPERTY_TYPE, true, false)}
         label="Тип недвижимости"
         placeholder="Выберите тип недвижимости"
         value={values.propertyType}
